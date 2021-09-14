@@ -61,6 +61,8 @@ function draw() {
     if(leftPressed) {
         paddleX -= 7
     }
+
+    drawPaddle();
 }
 
 function keyDownHandler(e){
