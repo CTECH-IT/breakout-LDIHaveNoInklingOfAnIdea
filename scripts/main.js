@@ -11,6 +11,22 @@ let dy = -2;
 
 let ballRadius = 10;
 
+let paddleHeight = 10;
+let paddleWidth = 75;
+let paddleX = (canvas.width-paddleWidth) / 2;
+
+let rightPressed = false
+let leftPressed = false
+
+function drawPaddle()  {
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+}
+
+
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -38,7 +54,36 @@ function draw() {
         dx = -dx;
     }
     
+    //paddle controls
+    if(rightPressed) {
+        paddleX += 7
+    }
+    if(leftPressed) {
+        paddleX -= 7
+    }
 }
+
+function keyDownHandler(e){
+    if (e.key == "Right" || e.key == "ArrowRight"){
+        rightPressed = true;
+    }
+    else if (e.key == "Left" || e.key == "ArrowLeft"){
+        leftPressed = true;
+    }
+}
+
+function keyUpHandler(e){
+    if (e.key == "Right" || e.key == "ArrowRight"){
+        rightPressed = true;
+    }
+    else if (e.key == "Left" || e.key == "ArrowLeft"){
+        leftPressed = true;
+    }
+}
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
 setInterval(draw, 10)
 
 ctx.beginPath();
