@@ -42,7 +42,7 @@ function draw() {
     drawBall();
 
     drawPaddle();
-    
+
     //let the x and y values change for the ball
     x += dx;
     y += dy;
@@ -83,10 +83,10 @@ function keyDownHandler(e){
 
 function keyUpHandler(e){
     if (e.key == "Right" || e.key == "ArrowRight"){
-        rightPressed = true;
+        rightPressed = false;
     }
     else if (e.key == "Left" || e.key == "ArrowLeft"){
-        leftPressed = true;
+        leftPressed = false;
     }
 }
 
