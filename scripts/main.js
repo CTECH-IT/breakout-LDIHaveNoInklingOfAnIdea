@@ -15,8 +15,8 @@ let paddleHeight = 10;
 let paddleWidth = 75;
 let paddleX = (canvas.width-paddleWidth) / 2;
 
-let rightPressed = false
-let leftPressed = false
+let rightPressed = false;
+let leftPressed = false;
 
 function drawPaddle()  {
     ctx.beginPath();
