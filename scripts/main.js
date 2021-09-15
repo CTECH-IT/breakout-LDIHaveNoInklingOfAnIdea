@@ -1,4 +1,3 @@
-// Put your JavaScript here
 
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
@@ -42,6 +41,8 @@ function draw() {
     //draw the ball
     drawBall();
 
+    drawPaddle();
+    
     //let the x and y values change for the ball
     x += dx;
     y += dy;
