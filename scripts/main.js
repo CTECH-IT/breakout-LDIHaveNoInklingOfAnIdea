@@ -119,6 +119,8 @@ function draw() {
     
 }
 
+let interval = setInterval(draw, 10)
+
 function collisionDetection() {
     for(let c=0; c < brickColumnCount; c++) {
         for(let r=0; r < brickRowCount; r++) {
@@ -153,7 +155,7 @@ function keyUpHandler(e){
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
-let interval = setInterval(draw, 10)
+
 
 
 
