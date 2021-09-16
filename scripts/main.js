@@ -49,8 +49,6 @@ function drawBall() {
     ctx.closePath();
 }
 
-
-
 function drawBricks() {
     for(let c=0; c < brickColumnCount; c++) {
         for(let r=0; r < brickRowCount; r++) {
@@ -71,8 +69,6 @@ function drawBricks() {
 
 
 function draw() {
-    
-    
     //clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -83,14 +79,16 @@ function draw() {
     drawBall();
 
     drawPaddle();
+
     //let the x and y values change for the ball
     x += dx;
     y += dy;
 
+
     if (x + dx > canvas.width - ballRadius || x + dx  < ballRadius) {
         dx = -dx;
     }
-    if (y + dy < ballRadius) {//ceiling check 
+   if (y + dy < ballRadius) {//ceiling check 
       dy = -dy;
     } else if (y + dy > canvas.height - ballRadius) {//floor check
         if(x > paddleX && x < paddleX + paddleWidth) {//paddle check
@@ -101,7 +99,6 @@ function draw() {
             clearInterval(interval); // needed for game to reload game over
         }
     }
-
 
     //paddle controls
     if (rightPressed) {
@@ -121,8 +118,6 @@ function draw() {
 
     
 }
-
-let interval = setInterval(draw, 10)
 
 function collisionDetection() {
     for(let c=0; c < brickColumnCount; c++) {
