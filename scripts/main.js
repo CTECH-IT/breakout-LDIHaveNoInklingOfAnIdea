@@ -1,3 +1,6 @@
+
+let score = 0;
+
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 
@@ -28,7 +31,7 @@ let brickOffsetLeft = 30
 let bricks = []
 for (let c=0; c < brickColumnCount; c++){
     bricks[c] = [];
-    for(let r=0; c < brickRowCount; r++){
+     for(let r=0; r < brickRowCount; r++){
         bricks[c] [r] = {x: 0, y: 0, show: true};
     }
 }
@@ -50,14 +53,15 @@ function drawBall() {
 }
 
 function drawBricks() {
-    for(let c=0; c < brickColumnCount; c++) {
+    for(let c=0; c<brickColumnCount; c++) {
         for(let r=0; r < brickRowCount; r++) {
             if(bricks[c][r].show == true){
-             let brickX = (c*(brickWidth+brickPadding));
-             let brickY = (r*(brickHeight+brickPadding));bricks[c][r].x = 0;
-             bricks[c][r].y = 0;
+             let brickX = (c*(brickWidth+brickPadding))+ brickOffsetLeft;
+             let brickY = (r*(brickHeight+brickPadding))+ brickOffsetTop;
+             bricks[c][r].x = brickX;
+             bricks[c][r].y = brickY;
              ctx.beginPath();
-             ctx.rect(0, 0, brickWidth, brickHeight);
+             ctx.rect(brickX, brickY, brickWidth, brickHeight);
              ctx.fillStyle = "#0095DD";
              ctx.fill();
              ctx.closePath();
@@ -77,9 +81,14 @@ function draw() {
 
     //draw the ball
     drawBall();
-
+    
+    drawScore();
+    
     drawPaddle();
-
+    
+    //check whether the ball is touching bricks
+    collisionDetection();
+    
     //let the x and y values change for the ball
     x += dx;
     y += dy;
@@ -94,7 +103,7 @@ function draw() {
         if(x > paddleX && x < paddleX + paddleWidth) {//paddle check
          dy = -dy;
         } else {//it hit floor
-            alert("GAME OVER");
+            alert("GAME OVER LOOOSERRRRR!");
             document.location.reload();
             clearInterval(interval); // needed for game to reload game over
         }
@@ -113,23 +122,34 @@ function draw() {
             paddleX = 0;
         }
     }
-  
-    drawPaddle();
 
-    
 }
 
-let interval = setInterval(draw, 10)
+
 
 function collisionDetection() {
     for(let c=0; c < brickColumnCount; c++) {
         for(let r=0; r < brickRowCount; r++) {
             let b = bricks[c][r];
-            if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight){
-                dy = -dy
+            if (b.show == true){
+                if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight){
+                    dy = -dy;
+                    b.show = false;
+                    score++;
+                    if(score == brickRowCount*brickColumnCount){
+                        alert("YOU WON YOU LITTLE BABY!");
+                        document.location.reload();
+                        clearInterval(interval);
+                    }
+                } 
             }
         }
     }
+}
+function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score:  " + score, 8, 20);
 }
 
 function keyDownHandler(e){
@@ -141,8 +161,6 @@ function keyDownHandler(e){
     }
 }
 
-
-
 function keyUpHandler(e){
     if (e.key == "Right" || e.key == "ArrowRight"){
         rightPressed = false;
@@ -152,10 +170,18 @@ function keyUpHandler(e){
     }
 }
 
+document.addEventListener("mousemove", mouseMoveHandler, false)
+
+function mouseMoveHandler(e){
+    let relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2
+    }
+}
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
-
-
+ let interval = setInterval(draw, 10) 
 
 
