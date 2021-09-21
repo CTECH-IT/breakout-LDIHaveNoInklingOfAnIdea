@@ -4,6 +4,8 @@ let score = 0;
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 
+var life = 3
+
 let x = canvas.width/2;
 let y = canvas.height-30;
 
@@ -82,6 +84,8 @@ function draw() {
     //draw the ball
     drawBall();
     
+    drawLife();
+
     drawScore();
     
     drawPaddle();
@@ -103,9 +107,20 @@ function draw() {
         if(x > paddleX && x < paddleX + paddleWidth) {//paddle check
          dy = -dy;
         } else {//it hit floor
-            alert("GAME OVER LOOOSERRRRR!");
-            document.location.reload();
-            clearInterval(interval); // needed for game to reload game over
+            if(life > 0){
+                life = life-1;
+                alert("lost a life LOOOOSERRR");
+                x = canvas.width/2;
+                y = canvas.height-30;
+                dx = 2;
+                dy = -2;
+                paddleX = (canvas.width-paddleWidth)/2;
+                } else {
+                alert("GAME OVER LOOOOOSERRR");
+                document.location.reload();
+                clearInterval(interval); // needed for game to reload game over
+            }
+            
         }
     }
 
@@ -149,7 +164,13 @@ function collisionDetection() {
 function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("Score:  " + score, 8, 20);
+    ctx.fillText("your baby Score:  " + score, 8, 20);
+}
+
+function drawLife() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("loser life system:  " + life, 8, 40);
 }
 
 function keyDownHandler(e){
